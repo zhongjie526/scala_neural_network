@@ -1,0 +1,76 @@
+<classpath>
+  <classpathentry kind="src" path="src/main/scala"/>
+  <classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"></classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.scalanlp/breeze_2.11/srcs/breeze_2.11-1.0-RC2-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.scalanlp/breeze_2.11/jars/breeze_2.11-1.0-RC2.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.scalanlp/breeze_2.11/docs/breeze_2.11-1.0-RC2-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.scalanlp/breeze-macros_2.11/srcs/breeze-macros_2.11-1.0-RC2-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.scalanlp/breeze-macros_2.11/jars/breeze-macros_2.11-1.0-RC2.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.scalanlp/breeze-macros_2.11/docs/breeze-macros_2.11-1.0-RC2-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/com.github.fommil.netlib/core/srcs/core-1.1.2-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/com.github.fommil.netlib/core/jars/core-1.1.2.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/com.github.fommil.netlib/core/docs/core-1.1.2-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="lib" path="/home/frank/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/jars/arpack_combined_all-0.1.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/net.sourceforge.f2j/arpack_combined_all/docs/arpack_combined_all-0.1-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/net.sf.opencsv/opencsv/srcs/opencsv-2.3-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/net.sf.opencsv/opencsv/jars/opencsv-2.3.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/net.sf.opencsv/opencsv/docs/opencsv-2.3-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/com.github.wendykierp/JTransforms/srcs/JTransforms-3.1-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/com.github.wendykierp/JTransforms/jars/JTransforms-3.1.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/com.github.wendykierp/JTransforms/docs/JTransforms-3.1-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.apache.commons/commons-math3/srcs/commons-math3-3.2-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.apache.commons/commons-math3/jars/commons-math3-3.2.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.apache.commons/commons-math3/docs/commons-math3-3.2-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/pl.edu.icm/JLargeArrays/srcs/JLargeArrays-1.5-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/pl.edu.icm/JLargeArrays/jars/JLargeArrays-1.5.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/pl.edu.icm/JLargeArrays/docs/JLargeArrays-1.5-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.spire-math/spire_2.11/srcs/spire_2.11-0.13.0-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.spire-math/spire_2.11/jars/spire_2.11-0.13.0.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.spire-math/spire_2.11/docs/spire_2.11-0.13.0-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.spire-math/spire-macros_2.11/srcs/spire-macros_2.11-0.13.0-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.spire-math/spire-macros_2.11/jars/spire-macros_2.11-0.13.0.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.spire-math/spire-macros_2.11/docs/spire-macros_2.11-0.13.0-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.typelevel/machinist_2.11/srcs/machinist_2.11-0.6.1-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.typelevel/machinist_2.11/jars/machinist_2.11-0.6.1.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.typelevel/machinist_2.11/docs/machinist_2.11-0.6.1-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/com.chuusai/shapeless_2.11/srcs/shapeless_2.11-2.3.2-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/com.chuusai/shapeless_2.11/bundles/shapeless_2.11-2.3.2.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/com.chuusai/shapeless_2.11/docs/shapeless_2.11-2.3.2-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.typelevel/macro-compat_2.11/srcs/macro-compat_2.11-1.1.1-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.typelevel/macro-compat_2.11/jars/macro-compat_2.11-1.1.1.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.typelevel/macro-compat_2.11/docs/macro-compat_2.11-1.1.1-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry sourcepath="/home/frank/.ivy2/cache/org.slf4j/slf4j-api/srcs/slf4j-api-1.7.5-sources.jar" kind="lib" path="/home/frank/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.5.jar">
+    <attributes>
+      <attribute name="javadoc_location" value="jar:file:/home/frank/.ivy2/cache/org.slf4j/slf4j-api/docs/slf4j-api-1.7.5-javadoc.jar!/"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="output" path="bin"/>
+</classpath>

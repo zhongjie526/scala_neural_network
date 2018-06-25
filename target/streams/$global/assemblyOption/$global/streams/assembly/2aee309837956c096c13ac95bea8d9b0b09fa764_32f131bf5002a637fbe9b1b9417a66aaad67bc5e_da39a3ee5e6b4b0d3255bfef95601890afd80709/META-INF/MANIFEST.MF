@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: core
+Implementation-Version: 0.13.0
+Specification-Vendor: org.spire-math
+Specification-Title: core
+Implementation-Vendor-Id: org.spire-math
+Specification-Version: 0.13.0
+Implementation-URL: http://spire-math.org
+Implementation-Vendor: org.spire-math
+

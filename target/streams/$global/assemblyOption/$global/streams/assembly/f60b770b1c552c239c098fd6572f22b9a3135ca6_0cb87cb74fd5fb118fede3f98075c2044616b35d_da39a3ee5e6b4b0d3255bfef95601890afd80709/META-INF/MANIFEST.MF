@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: core
+Implementation-Version: 1.1.1
+Specification-Vendor: org.typelevel
+Specification-Title: core
+Implementation-Vendor-Id: org.typelevel
+Specification-Version: 1.1.1
+Implementation-URL: https://github.com/milessabin/macro-compat
+Implementation-Vendor: org.typelevel
+
