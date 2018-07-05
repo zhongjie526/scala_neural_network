@@ -26,7 +26,7 @@ object GradientChecking extends App {
   
 
   
-  val nn = ANN_Biased_Perc(arch,relu)
+  val nn = ANNBiasedPercStochastic(arch,relu)
   val thetas_source = nn.initialize
  
   val (x_train,y_train) = input.toArray.map{xs => (DenseVector(xs.tail),DenseVector(xs.head))}.unzip

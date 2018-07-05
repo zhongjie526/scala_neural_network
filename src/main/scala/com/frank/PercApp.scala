@@ -15,6 +15,7 @@ object PercApp extends App {
   propIn.close
   
   val iterations:Int = prop.getProperty("iterations").toInt
+  val batch:Int = prop.getProperty("batch").toInt
   val lambda:Double = prop.getProperty("lambda").toDouble 
   val lambda_reg:Double = prop.getProperty("lambda.regularization").toDouble 
   val initialize:Boolean = prop.getProperty("initialize").toBoolean
@@ -29,7 +30,7 @@ object PercApp extends App {
                                  .map{field:String=>if(field.length()>0 && field.head=='C') field.tail else field}
                                  .map{field:String=>Try(field.toDouble).toOption.getOrElse(Double.NaN)})
 
-  val nn = ANN_Biased_Perc(arch,relu)
+  val nn = ANNBiasedPercStochastic(arch,relu)
 
   lazy val thetas_source = scala.io.Source.fromFile(s"$working_dir/thetas_output").getLines().toArray.map(_.toDouble)
   val thetas_initial = if(initialize) nn.initialize else  nn.rolling_thetas(thetas_source)
@@ -59,7 +60,7 @@ object PercApp extends App {
   val x_train_scaled = scaling(x_train,means,stds)
   
   
-  val thetas =  nn.optimize_gradient(thetas_initial,x_train_scaled, y_train, lambda ,lambda_reg, iterations)
+  val thetas =  nn.optimize_gradient(thetas_initial,x_train_scaled, y_train, lambda ,lambda_reg, iterations,batch)
   
   val thetas_unrolled = nn.unrolling_thetas(thetas)
  
