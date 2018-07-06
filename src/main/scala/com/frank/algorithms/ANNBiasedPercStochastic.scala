@@ -64,8 +64,8 @@ case class ANNBiasedPercStochastic(architecture:List[Int],actFunc:Double=>Double
                  (DenseVector[Double],List[DenseVector[Double]],List[DenseVector[Double]]) = {
       val activation =  DenseVector(1.0 +: spikes.last.map(actFunc).toArray)
 
-      if(thetas.isEmpty) (spikes.last,spikes,acts :+ activation)
-      //if(thetas.isEmpty) (spikes.last.map(actFunc),spikes,acts :+ activation)
+      //if(thetas.isEmpty) (spikes.last,spikes,acts )
+      if(thetas.isEmpty) (spikes.last.map(actFunc),spikes,acts)  //applying activation function to the output here
       else {
         val spike = thetas.head * activation
         getOutput(spikes :+ spike,thetas.tail, acts :+ activation)
@@ -96,7 +96,7 @@ case class ANNBiasedPercStochastic(architecture:List[Int],actFunc:Double=>Double
         getDelta(del +: deltas, thetas.init, as.init)
       }
     }
-    getDelta(List(((y_hat-y).map(Math.signum(_))/y)),thetas,acts.init)
+    getDelta(List(((y_hat-y).map(Math.signum(_))/y)),thetas,acts)
   }
   
   def get_gradient(thetas: List[DenseMatrix[Double]],x:Array[DenseVector[Double]], y:Array[DenseVector[Double]],lambda_reg:Double) :List[DenseMatrix[Double]] ={
