@@ -100,7 +100,7 @@ case class ANNBiasedPercStochastic(architecture:List[Int],actFunc:Double=>Double
   }
   
   def get_gradient(thetas: List[DenseMatrix[Double]],x:Array[DenseVector[Double]], y:Array[DenseVector[Double]],lambda_reg:Double) :List[DenseMatrix[Double]] ={
-    //reset_gradient
+
     if(x.size != y.size) {println("size of X does NOT match that of y");break}
     else {
 
@@ -116,29 +116,40 @@ case class ANNBiasedPercStochastic(architecture:List[Int],actFunc:Double=>Double
   }
   
   def update_thetas(big_ds:List[DenseMatrix[Double]],thetas: List[DenseMatrix[Double]],lambda:Double) :List[DenseMatrix[Double]] ={
-    
     thetas.zip(big_ds).par.map{case (t,d)=> t-d.map(_*lambda)}.toList
   }
   
   def optimize_gradient(thetas: List[DenseMatrix[Double]],x:Array[DenseVector[Double]], y:Array[DenseVector[Double]],lambda:Double,lambda_reg:Double,n_iter:Int,n_batch:Int) : List[DenseMatrix[Double]] ={
     def update_gradient(thetas: List[DenseMatrix[Double]],x:Array[DenseVector[Double]], y:Array[DenseVector[Double]],lambda:Double,lambda_reg:Double,iter:Int,batch_no:Int) : List[DenseMatrix[Double]] ={
-      if(printCost) {
-        if(iter%100 ==0){
-          println(s"======================iteration $iter batch $batch_no with batch size = ${x.slice(n_batch*batch_no,n_batch*(batch_no+1)).size}===========================")
-          println(s"cost is ${get_cost_regularized(x,y,thetas,lambda_reg)}")
-        }
-      }
-      
+
       if(iter <= n_iter){
         
-        val big_ds = get_gradient(thetas,x.slice(n_batch*batch_no,n_batch*(batch_no+1)),y.slice(n_batch*batch_no,n_batch*(batch_no+1)),lambda_reg)
-        if(batch_no < x.length/n_batch){
-          update_gradient( update_thetas(big_ds,thetas,lambda)  ,x,y,lambda,lambda_reg,iter,batch_no+1)
-        }
+        val x_batch = x.slice(n_batch*batch_no,n_batch*(batch_no+1))
+        val y_batch = y.slice(n_batch*batch_no,n_batch*(batch_no+1))
+        
+        if(x_batch.isEmpty) {
+              val (x_new,y_new) = shuffle(x.zip(y).toSeq).toArray.unzip
+              update_gradient( thetas ,x_new,y_new,lambda,lambda_reg,iter+1,0)
+            }
+        
         else{
-            val (x_new,y_new) = shuffle(x.zip(y).toSeq).toArray.unzip
-            update_gradient( update_thetas(big_ds,thetas,lambda)  ,x_new,y_new,lambda,lambda_reg,iter+1,0)
+
+          val big_ds = get_gradient(thetas,x_batch,y_batch,lambda_reg)
+          
+          if(batch_no <= x.length/n_batch){
+            if(printCost) {
+              if(iter%100 ==0){
+              println(s"======================iteration $iter batch $batch_no with batch size = ${x_batch.size}===========================")
+              println(s"cost is ${get_cost_regularized(x_batch,y_batch,thetas,lambda_reg)}")
+              }
+            }
+            update_gradient( update_thetas(big_ds,thetas,lambda)  ,x,y,lambda,lambda_reg,iter,batch_no+1)
           }
+          else{
+              val (x_new,y_new) = shuffle(x.zip(y).toSeq).toArray.unzip
+              update_gradient( update_thetas(big_ds,thetas,lambda)  ,x_new,y_new,lambda,lambda_reg,iter+1,0)
+            }
+        }
       }
           
       else thetas

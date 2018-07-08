@@ -59,7 +59,7 @@ object PercApp extends App {
   val x_train_scaled = scaling(x_train,means,stds)
   
   
-  val thetas =  nn.optimize_gradient(thetas_initial,x_train_scaled, y_train, lambda ,lambda_reg, iterations,batch)
+  val thetas =  time(nn.optimize_gradient(thetas_initial,x_train_scaled, y_train, lambda ,lambda_reg, iterations,batch))
   
   val thetas_unrolled = nn.unrolling_thetas(thetas)
  

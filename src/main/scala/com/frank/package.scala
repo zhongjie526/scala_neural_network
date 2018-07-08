@@ -71,7 +71,16 @@ package object frank {
       if(w.isEmpty) Double.NaN
       else breeze.stats.stddev(DenseVector(w))
     }
+    
+
   }
+        def time[T](block: => T): T = {
+    val start = System.currentTimeMillis
+    val res = block
+    val totalTime = System.currentTimeMillis - start
+    println("Elapsed time: %.2f s".format(totalTime/1000.0))
+    res
+}
   
 
   
