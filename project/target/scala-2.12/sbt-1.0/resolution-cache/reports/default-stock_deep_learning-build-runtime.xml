@@ -9,7 +9,7 @@
 		extra-sbtVersion="1.0"
 		conf="runtime"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
-		date="20180325110257"/>
+		date="20180706225242"/>
 	<dependencies>
 		<module organisation="org.scala-lang" name="scala-reflect">
 			<revision name="2.12.4" status="release" pubdate="20171011152224" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.scala-lang.org/" extra-info.apiURL="http://www.scala-lang.org/api/2.12.4/" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="6">

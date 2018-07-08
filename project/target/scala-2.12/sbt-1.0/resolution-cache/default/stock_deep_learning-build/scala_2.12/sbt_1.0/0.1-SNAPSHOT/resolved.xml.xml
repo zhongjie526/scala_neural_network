@@ -4,7 +4,7 @@
 		module="stock_deep_learning-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20180325110257"
+		publication="20180706225242"
 		e:sbtVersion="1.0" e:scalaVersion="2.12"
 	>
 		<description>
