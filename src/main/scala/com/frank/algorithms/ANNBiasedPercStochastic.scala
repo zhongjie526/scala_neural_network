@@ -124,7 +124,7 @@ case class ANNBiasedPercStochastic(architecture:List[Int],actFunc:Double=>Double
     def update_gradient(thetas: List[DenseMatrix[Double]],x:Array[DenseVector[Double]], y:Array[DenseVector[Double]],lambda:Double,lambda_reg:Double,iter:Int,batch_no:Int) : List[DenseMatrix[Double]] ={
       if(printCost) {
         if(iter%100 ==0){
-          println(s"======================iteration $iter===========================")
+          println(s"======================iteration $iter batch $batch_no with batch size = ${x.slice(n_batch*batch_no,n_batch*(batch_no+1)).size}===========================")
           println(s"cost is ${get_cost_regularized(x,y,thetas,lambda_reg)}")
         }
       }

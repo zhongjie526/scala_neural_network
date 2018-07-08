@@ -21,7 +21,6 @@ object PercApp extends App {
   val initialize:Boolean = prop.getProperty("initialize").toBoolean
   val initialize_scaling:Boolean = prop.getProperty("initialize_scaling").toBoolean
   val arch:List[Int] = prop.getProperty("architecture").split("\\|").toList.map(_.toInt)
-  val randomization:Double = prop.getProperty("randomization").toDouble 
   
   val working_dir = System.getProperty("user.dir")
   
