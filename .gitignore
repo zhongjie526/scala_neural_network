@@ -2,3 +2,7 @@
 target/
 *.class
 .classpath
+result.csv
+theta*
+mean*
+std*
