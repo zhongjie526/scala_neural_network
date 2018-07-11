@@ -76,8 +76,8 @@ object PercApp extends App {
     val (pred_y,_,_)=nn.forwardProp(x, thetas)
     val pred = pred_y(0)
     val diff = (pred/y-1)
-    val diff_high = (pred*(1.0+1.0*vol)/y-1)
-    val diff_low = (pred*(1.0-1.0*vol)/y-1)
+    val diff_high = (pred+3.0*vol)/y-1
+    val diff_low = (pred-3.0*vol)/y-1
 
     (id,y,pred,diff,vol,diff_high,diff_low)
   }

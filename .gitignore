@@ -1,8 +1,7 @@
-/bin/
+bin/
 target/
 *.class
 .classpath
-result.csv
 theta*
 mean*
 std*
