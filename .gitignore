@@ -3,5 +3,6 @@ target/
 *.class
 .classpath
 theta*
-mean*
+means
 std*
+result.csv
