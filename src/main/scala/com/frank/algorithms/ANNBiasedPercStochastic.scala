@@ -135,6 +135,8 @@ case class ANNBiasedPercStochastic(architecture:List[Int],actFunc:Double=>Double
         else{
 
           val big_ds = get_gradient(thetas,x_batch,y_batch,lambda_reg)
+
+          if(batch_no<1) println(x_batch.map(_.toString).reduce(_+"|"+_))
           
           if(batch_no <= x.length/n_batch){
             if(printCost) {

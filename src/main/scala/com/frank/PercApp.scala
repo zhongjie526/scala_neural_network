@@ -112,7 +112,9 @@ object PercApp extends App {
   }
 
   val train_r2 = nn.get_rsquare(x_train_scaled,y_train,thetas)
+  val train_cost = nn.get_cost_regularized(x_train_scaled,y_train,thetas,lambda_reg)
   println(s"training r2 = $train_r2")
+  println(s"training cost = $train_cost")
 
 
 }
