@@ -4,7 +4,8 @@ scalaVersion := "2.11.11"
 mainClass := Some("com.frank.AnnApp")
 
 libraryDependencies ++= Seq(
-"org.scalanlp" % "breeze_2.11" % "1.0-RC2"
+"org.scalanlp" %% "breeze" % "1.0-RC2",
+"org.scalanlp" %% "breeze-natives" % "1.0-RC2"
 )
 
 
