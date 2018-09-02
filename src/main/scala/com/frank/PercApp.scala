@@ -37,7 +37,7 @@ object PercApp extends App {
   nn.printCost = prop.getProperty("cost.print").toBoolean
   
  
-  val (x_train,y_train) = input.toArray.map{xs => (DenseVector(xs.tail),DenseVector(xs.head))}.unzip
+  val (x_train,y_train) = input.toArray.map{xs => (DenseVector(xs.tail.drop(1)),DenseVector(xs.head))}.unzip
   
   
   if(initialize_scaling) {
@@ -72,7 +72,7 @@ object PercApp extends App {
     val data = fields.tail.map{field:String=>if(field.length()>0 && field.head=='C') field.tail else field}
     .map{field:String=>Try(field.toDouble).toOption.getOrElse(Double.NaN)}
     val y = data.head
-    val x = scaling(DenseVector(data.tail),means,stds)
+    val x = scaling(DenseVector(data.tail.drop(1)),means,stds)
     val (pred_y,_,_)=nn.forwardProp(x, thetas)
     val pred = pred_y(0)
     val diff = (pred/y-1)
