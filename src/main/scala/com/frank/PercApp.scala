@@ -68,25 +68,23 @@ object PercApp extends App {
   val estimates = file.toArray.map{line=>
     val fields = line.split(",",-1)
     val id = fields(0)
-    val vol = fields(2).toDouble
+    val market_cap = fields(2).toDouble
     val data = fields.tail.map{field:String=>if(field.length()>0 && field.head=='C') field.tail else field}
     .map{field:String=>Try(field.toDouble).toOption.getOrElse(Double.NaN)}
     val y = data.head
     val x = scaling(DenseVector(data.tail.drop(1)),means,stds)
     val (pred_y,_,_)=nn.forwardProp(x, thetas)
     val pred = pred_y(0)
-    val diff = (pred/y-1)
-    val diff_high = (pred+3.0*vol)/y-1
-    val diff_low = (pred-3.0*vol)/y-1
+    val diff = (pred-y)/y
 
-    (id,y,pred,diff,vol,diff_high,diff_low)
+    (id,y,pred,diff,market_cap)
   }
   
   val long = new File(s"$working_dir/result.csv")
   val bw_long = new BufferedWriter(new FileWriter(long))
   
-  estimates.sortBy(-_._4).foreach{case (id,y,pred,diff,vol,diff_high,diff_low) => 
-  bw_long.write(id.toString+","+y.toString+","+pred.toString+","+diff.toString +","+vol+","+diff_high+","+diff_low+"\n")}
+  estimates.sortBy(-_._4).foreach{case (id,y,pred,diff,market_cap) => 
+  bw_long.write(id.toString+","+y.toString+","+pred.toString+","+diff+","+market_cap+"\n")}
   
   bw_long.close()
   
