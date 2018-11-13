@@ -68,7 +68,7 @@ object PercApp extends App {
   val estimates = file.toArray.map{line=>
     val fields = line.split(",",-1)
     val id = fields(0)
-    val market_cap = fields(2).toDouble
+    val market_cap = fields(2)
     val data = fields.tail.map{field:String=>if(field.length()>0 && field.head=='C') field.tail else field}
     .map{field:String=>Try(field.toDouble).toOption.getOrElse(Double.NaN)}
     val y = data.head
