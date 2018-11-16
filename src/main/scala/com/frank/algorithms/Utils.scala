@@ -31,7 +31,7 @@ object Utils {
     val stds = (data_br.map(_.std)).t
     val x_scaled = x.map{v=>
       val w = (v-means):/stds
-      w.map(y=>if(y.isNaN) 0.0 else y)}
+      w.map(y=>if(y.isNaN) -5.0 else y)}
    // println(x_scaled.size)
     (x_scaled,means,stds)
   }
