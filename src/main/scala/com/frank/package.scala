@@ -33,6 +33,15 @@ package object frank {
       else (s_sorted(n/2-1)+s_sorted(n/2))/2
     }
     
+    def getMedian = {
+      val sortedSeq = s.toSeq.sortWith(_ < _)
+      if (s.size % 2 == 1) sortedSeq(sortedSeq.size / 2)
+  else {
+    val (up, down) = sortedSeq.splitAt(s.size / 2)
+    (up.last + down.head) / 2
+  }
+    }
+    
     def getSecondCentralM = s.map(x=>scala.math.pow(x-sample_mean,2)).sum/n
     
     def getStd = scala.math.sqrt(getSecondCentralM*n/(n-1))

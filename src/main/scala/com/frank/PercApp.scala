@@ -6,6 +6,7 @@ import breeze.linalg._
 import java.io._
 import scala.util.Try
 import java.util.Properties
+import com.frank._
 
 object PercApp extends App {
   
@@ -36,7 +37,6 @@ object PercApp extends App {
   
   nn.printCost = prop.getProperty("cost.print").toBoolean
   
- 
   val (x_train,y_train) = input.toArray.map{xs => (DenseVector(xs.tail.drop(1)),DenseVector(xs.head))}.unzip
   
   
@@ -53,17 +53,12 @@ object PercApp extends App {
     bw_stds.close
   }
   
-
   val means = DenseVector(scala.io.Source.fromFile(s"$working_dir/means").getLines().map(_.toDouble).toArray)
   val stds = DenseVector(scala.io.Source.fromFile(s"$working_dir/stds").getLines().map(_.toDouble).toArray)
   val x_train_scaled = scaling(x_train,means,stds)
-  
-  
   val thetas =  time(nn.optimize_gradient(thetas_initial,x_train_scaled, y_train, lambda ,lambda_reg, iterations,batch))
-  
   val thetas_unrolled = nn.unrolling_thetas(thetas)
  
-
 
   val estimates = file.toArray.map{line=>
     val fields = line.split(",",-1)
@@ -72,20 +67,34 @@ object PercApp extends App {
     val data = fields.tail.map{field:String=>if(field.length()>0 && field.head=='C') field.tail else field}
     .map{field:String=>Try(field.toDouble).toOption.getOrElse(Double.NaN)}
     val y = data.head
-    val x = scaling(DenseVector(data.tail.drop(1)),means,stds)
-    val (pred_y,_,_)=nn.forwardProp(x, thetas)
-    val pred = pred_y(0)
-    val diff = (pred-y)/y
+    val x_scaled = scaling(DenseVector(data.tail.drop(1)),means,stds)
+    //val x = randomize(x_s)
+    val xs = simulate(x_scaled,500)
+    val pred_ys = nn.forwardProp(xs, thetas)
 
-    (id,y,pred,diff,market_cap)
+    val preds = pred_ys.map(_(0)).toSeq
+    val pred_mean = preds.sample_mean
+    val pred_median = preds.getMedian
+    val pred_std = preds.getStd
+    val pred_min = preds.min
+    val pred_max = preds.max
+    val diff = (pred_median-y)/y
+    
+
+    (id,y,pred_mean,pred_median,diff,pred_std,pred_min,pred_max,market_cap)
   }
   
   val long = new File(s"$working_dir/result.csv")
   val bw_long = new BufferedWriter(new FileWriter(long))
   
-  estimates.sortBy(-_._4).foreach{case (id,y,pred,diff,market_cap) => 
-  bw_long.write(id.toString+","+y.toString+","+pred.toString+","+diff+","+market_cap+"\n")}
+  //estimates.sortBy(-_._4).foreach{case (id,y,pred,diff,market_cap) => 
+  //bw_long.write(id.toString+","+y.toString+","+pred.toString+","+diff+","+market_cap+"\n")}
   
+  estimates.sortBy(-_._5).foreach
+  {
+    case (id,y,pred_mean,pred_median,diff,pred_std,pred_min,pred_max,market_cap) =>    
+    bw_long.write(id.toString+","+y.toString+","+pred_mean.toString+","+pred_median+","+diff.toString+","+pred_std.toString+","+pred_min.toString+","+pred_max.toString+","+market_cap.toString+"\n")
+  }
   bw_long.close()
   
 
@@ -100,7 +109,6 @@ object PercApp extends App {
   nn.unrolling_thetas(thetas.map(_.t)).foreach(t=>bw_thetas_t.write(t.toString+"\n"))
   bw_thetas_t.close()
   
-  
   for(i<-1 to thetas.size){
     val theta_file = new File(s"$working_dir/theta_$i")
     val bw_theta_file = new BufferedWriter(new FileWriter(theta_file))
@@ -109,10 +117,14 @@ object PercApp extends App {
     bw_theta_file.close()
   }
 
-  val train_r2 = nn.get_rsquare(x_train_scaled,y_train,thetas)
-  val train_cost = nn.get_cost_regularized(x_train_scaled,y_train,thetas,lambda_reg)
+  val train_r2 = nn.get_rsquare(randomize(x_train_scaled),y_train,thetas)
+  val train_cost = nn.get_cost_regularized(randomize(x_train_scaled),y_train,thetas,lambda_reg)
+  val train_cost2 = nn.get_cost_regularized(randomize(x_train_scaled),y_train,thetas,lambda_reg)
+  val train_cost3 = nn.get_cost_regularized(randomize(x_train_scaled),y_train,thetas,lambda_reg)
   println(s"training r2 = $train_r2")
   println(s"training cost = $train_cost")
+  println(s"training cost2 = $train_cost2")
+  println(s"training cost3 = $train_cost3")
 
 
 }

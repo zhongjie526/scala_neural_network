@@ -4,6 +4,7 @@ import scala.util.control.Breaks._
 import breeze.linalg._
 import scala.collection.mutable.ArrayBuffer
 import util.Random.shuffle
+import Utils._
 
 case class ANNBiasedPercStochastic(architecture: List[Int], actFunc: Double => Double) {
 
@@ -119,36 +120,34 @@ case class ANNBiasedPercStochastic(architecture: List[Int], actFunc: Double => D
     def update_gradient(thetas: List[DenseMatrix[Double]], x: Array[DenseVector[Double]], y: Array[DenseVector[Double]], lambda: Double, lambda_reg: Double, iter: Int, batch_no: Int): List[DenseMatrix[Double]] = {
 
       if (iter <= n_iter) {
-
-        val x_batch = x.slice(n_batch * batch_no, n_batch * (batch_no + 1))
+        
+        val x_batch = x.slice(n_batch * batch_no, n_batch * (batch_no + 1))  
         val y_batch = y.slice(n_batch * batch_no, n_batch * (batch_no + 1))
 
         if (x_batch.isEmpty) {
           val (x_new, y_new) = shuffle(x.zip(y).toSeq).toArray.unzip
           update_gradient(thetas, x_new, y_new, lambda, lambda_reg, iter + 1, 0)
-        } else {
+        } 
+        else {
+          val x_batch_rand = randomize(x_batch)
 
-          val big_ds = get_gradient(thetas, x_batch, y_batch, lambda_reg)
+          val big_ds = get_gradient(thetas, x_batch_rand, y_batch, lambda_reg)
 
-          // if(batch_no<1) println(x_batch.map(_.toString).reduce(_+"|"+_))
-
-          if (batch_no <= x.length / n_batch) {
-            if (printCost) {
-              if (iter % 100 == 0) {
-                println(s"======================iteration $iter batch $batch_no with batch size = ${x_batch.size}===========================")
-                println(s"cost is ${get_cost_regularized(x_batch, y_batch, thetas, lambda_reg)}")
-              }
+          if (printCost) {
+            if (iter % 100 == 0) {
+              println(s"======================iteration $iter batch $batch_no with batch size = ${x_batch.size}===========================")
+              println(s"cost is ${get_cost_regularized(x_batch_rand, y_batch, thetas, lambda_reg)}")
             }
-            update_gradient(update_thetas(big_ds, thetas, lambda), x, y, lambda, lambda_reg, iter, batch_no + 1)
-          } else {
-            val (x_new, y_new) = shuffle(x.zip(y).toSeq).toArray.unzip
-            update_gradient(update_thetas(big_ds, thetas, lambda), x_new, y_new, lambda, lambda_reg, iter + 1, 0)
           }
+          update_gradient(update_thetas(big_ds, thetas, lambda), x, y, lambda, lambda_reg, iter, batch_no + 1)
+
         }
-      } else thetas
+      } 
+      else thetas
 
     }
-    update_gradient(thetas, x, y, lambda, lambda_reg, 1, 0)
+    
+    update_gradient(thetas,x, y, lambda, lambda_reg, 1, 0)
 
   }
 

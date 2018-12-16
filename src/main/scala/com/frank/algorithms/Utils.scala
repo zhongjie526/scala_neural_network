@@ -31,23 +31,41 @@ object Utils {
     val stds = (data_br.map(_.std)).t
     val x_scaled = x.map{v=>
       val w = (v-means):/stds
-      w.map(y=>if(y.isNaN) -5.0 else y)}
+      //val r = scala.util.Random
+     // w.map(y=>if(y.isNaN) r.nextDouble()-0.5 else y)
+      w
+     }
    // println(x_scaled.size)
     (x_scaled,means,stds)
   }
   
-  def scaling(x:Array[DenseVector[Double]],means:DenseVector[Double],stds:DenseVector[Double]) ={
-    val x_scaled = x.map{v=>
-      val w = (v-means):/stds
-      w.map(y=>if(y.isNaN) 0.0 else y)}
-    x_scaled
+  def scaling(v:DenseVector[Double],means:DenseVector[Double],stds:DenseVector[Double]) : DenseVector[Double]={
+      (v-means):/stds
+     // w.map(y=>if(y.isNaN) 0.0 else y
+     
   }
   
-  def scaling(v:DenseVector[Double],means:DenseVector[Double],stds:DenseVector[Double]) ={
-     val w = (v-means):/stds
-      w.map(y=>if(y.isNaN) 0.0 else y)
+  
+  def scaling(x:Array[DenseVector[Double]],means:DenseVector[Double],stds:DenseVector[Double]) : Array[DenseVector[Double]]={
+    x.map{v=>scaling(v,means,stds)}
+      
   }
   
+  def randomize(x:DenseVector[Double]):DenseVector[Double]={
+    x.map{v=>
+      val r = scala.util.Random
+      if(v.isNaN) r.nextDouble() -0.5 else v
+    }
+  }
+  
+  def randomize(x:Array[DenseVector[Double]]):Array[DenseVector[Double]]={
+    x.map{v:DenseVector[Double]=> randomize(v)}
+  }
+  
+  def simulate(x:DenseVector[Double],n:Int): Array[DenseVector[Double]] = {
+    Array.fill(n)(randomize(x))
+  }
+
   
   def costFuncFirstDerivative(y:DenseVector[Double], X:DenseMatrix[Double], theta:DenseVector[Double]): DenseVector[Double] ={
     val W = X(::,*) :* (X * theta - y)
