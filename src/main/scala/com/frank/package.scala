@@ -24,6 +24,7 @@ package object frank {
 	
   implicit class stats[T](series:scala.collection.Traversable[T])(implicit number:Numeric[T]) {
     val s = series.map(number.toDouble)
+    val sortedSeq = s.toSeq.sortWith(_ < _)
     val n = s.size
     val sample_mean = s.sum/n
     
@@ -34,13 +35,22 @@ package object frank {
     }
     
     def getMedian = {
-      val sortedSeq = s.toSeq.sortWith(_ < _)
-      if (s.size % 2 == 1) sortedSeq(sortedSeq.size / 2)
-  else {
-    val (up, down) = sortedSeq.splitAt(s.size / 2)
-    (up.last + down.head) / 2
-  }
+      if (n % 2 == 1) sortedSeq(n / 2)
+      else {
+        val (up, down) = sortedSeq.splitAt(n / 2)
+        (up.last + down.head) / 2
+      }
     }
+    
+    def getPercentile20 ={
+      sortedSeq(n/5)
+    }
+    
+    def getPercentile80 ={
+      sortedSeq((n*4)/5)
+    }
+    
+    
     
     def getSecondCentralM = s.map(x=>scala.math.pow(x-sample_mean,2)).sum/n
     

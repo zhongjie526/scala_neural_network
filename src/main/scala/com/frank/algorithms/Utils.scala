@@ -20,7 +20,6 @@ object Utils {
   def costFunc(y:DenseVector[Double], X:DenseMatrix[Double], theta:DenseVector[Double]):Double ={
     (X * theta -y).sumOfSquares/y.size/2
   }
-  
 
   
   def scaling(x:Array[DenseVector[Double]]) ={
@@ -29,13 +28,7 @@ object Utils {
     val data_br = DenseMatrix(x.map(_.toArray).reduce(_++_)).reshape(n_cols,n_rows).t(::,*)
     val means = (data_br.map(_.avg)).t
     val stds = (data_br.map(_.std)).t
-    val x_scaled = x.map{v=>
-      val w = (v-means):/stds
-      //val r = scala.util.Random
-     // w.map(y=>if(y.isNaN) r.nextDouble()-0.5 else y)
-      w
-     }
-   // println(x_scaled.size)
+    val x_scaled = x.map{v=>(v-means):/stds}
     (x_scaled,means,stds)
   }
   
@@ -45,7 +38,6 @@ object Utils {
      
   }
   
-  
   def scaling(x:Array[DenseVector[Double]],means:DenseVector[Double],stds:DenseVector[Double]) : Array[DenseVector[Double]]={
     x.map{v=>scaling(v,means,stds)}
       
@@ -54,25 +46,23 @@ object Utils {
   def randomize(x:DenseVector[Double]):DenseVector[Double]={
     x.map{v=>
       val r = scala.util.Random
-      if(v.isNaN) r.nextDouble() -0.5 else v
+      val s = scala.util.Random
+      if(v.isNaN) r.nextGaussian()/3.0 else v*(1.0+s.nextGaussian()/50.0)
     }
   }
   
   def randomize(x:Array[DenseVector[Double]]):Array[DenseVector[Double]]={
-    x.map{v:DenseVector[Double]=> randomize(v)}
+    x.map(randomize(_))
   }
   
   def simulate(x:DenseVector[Double],n:Int): Array[DenseVector[Double]] = {
     Array.fill(n)(randomize(x))
   }
 
-  
   def costFuncFirstDerivative(y:DenseVector[Double], X:DenseMatrix[Double], theta:DenseVector[Double]): DenseVector[Double] ={
     val W = X(::,*) :* (X * theta - y)
     mean(W(::,*)).t
   }
-  
-
   
   def R2(input:DenseMatrix[Double], theta:DenseVector[Double], scaling:DenseVector[Double]): Double ={
       val y = input(::,0)

@@ -68,7 +68,6 @@ object PercApp extends App {
     .map{field:String=>Try(field.toDouble).toOption.getOrElse(Double.NaN)}
     val y = data.head
     val x_scaled = scaling(DenseVector(data.tail.drop(1)),means,stds)
-    //val x = randomize(x_s)
     val xs = simulate(x_scaled,500)
     val pred_ys = nn.forwardProp(xs, thetas)
 
@@ -77,23 +76,23 @@ object PercApp extends App {
     val pred_median = preds.getMedian
     val pred_std = preds.getStd
     val pred_min = preds.min
+    val pred_20 = preds.getPercentile20
+    val pred_80 = preds.getPercentile80
     val pred_max = preds.max
-    val diff = (pred_median-y)/y
+    val diff = (pred_mean-y)/y
+    val pred_vol = pred_std/pred_median
     
 
-    (id,y,pred_mean,pred_median,diff,pred_std,pred_min,pred_max,market_cap)
+    (id,y,pred_mean,diff,market_cap,pred_min,pred_20,pred_median,pred_80,pred_max,pred_vol)
   }
   
   val long = new File(s"$working_dir/result.csv")
   val bw_long = new BufferedWriter(new FileWriter(long))
   
-  //estimates.sortBy(-_._4).foreach{case (id,y,pred,diff,market_cap) => 
-  //bw_long.write(id.toString+","+y.toString+","+pred.toString+","+diff+","+market_cap+"\n")}
-  
-  estimates.sortBy(-_._5).foreach
+  estimates.sortBy(_._9).foreach
   {
-    case (id,y,pred_mean,pred_median,diff,pred_std,pred_min,pred_max,market_cap) =>    
-    bw_long.write(id.toString+","+y.toString+","+pred_mean.toString+","+pred_median+","+diff.toString+","+pred_std.toString+","+pred_min.toString+","+pred_max.toString+","+market_cap.toString+"\n")
+    case (id,y,pred_mean,diff,market_cap,pred_min,pred_20,pred_median,pred_80,pred_max,pred_vol) =>    
+    bw_long.write(id+","+y+","+pred_mean+","+diff+","+market_cap+","+pred_min+","+pred_20+","+pred_median+","+pred_80+","+pred_max+","+pred_vol+"\n")
   }
   bw_long.close()
   
